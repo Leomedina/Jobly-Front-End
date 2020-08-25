@@ -5,7 +5,6 @@ import {
   Row,
   Col,
   Button,
-  InputGroup,
   Container
 } from 'react-bootstrap';
 

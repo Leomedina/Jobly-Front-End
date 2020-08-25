@@ -33,7 +33,7 @@ const Companies = () => {
             name={company.name}
             description={company.description} />
         )}
-      </CardColumns  >  
+      </CardColumns  >
     </>
   );
 };

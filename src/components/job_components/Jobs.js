@@ -11,15 +11,20 @@ const Jobs = () => {
 
   useEffect(() => {
     async function request() {
-      const request = await JoblyApi.getAllJobs();
-      setJobs(request);
+      const response = await JoblyApi.getAllJobs();
+      setJobs(response);
     }
     request();
   }, []);
 
+  async function handleSubmit(term) {
+    const response = await JoblyApi.getJobSearch(term);
+    setJobs(response);
+  };
+
   return (
     <>
-      <Search />
+      <Search handleSubmit={handleSubmit} />
       <CardColumns className="m-5">
         {jobs.map(job =>
           <JobCard

@@ -7,7 +7,7 @@ import {
 } from 'react-bootstrap';
 
 const Search = ({ handleSubmit }) => {
-  const [inputData, setInputData] = useState("");
+  const [inputData, setInputData] = useState({ search: '' });
 
   const handleChange = (evt) => {
     const { name, value } = evt.target;
@@ -16,8 +16,7 @@ const Search = ({ handleSubmit }) => {
       [name]: value
     }));
   }
-  const formSubmit = (evt) => {
-    setInputData('');
+  const formSubmit = () => {
     handleSubmit(inputData);
   }
 
@@ -28,9 +27,11 @@ const Search = ({ handleSubmit }) => {
         onChange={handleChange}
       >
         <FormControl
+          name="search"
           placeholder="Search"
           aria-label="Search"
           aria-describedby="basic-addon2"
+          value={inputData.value}
         />
         <InputGroup.Append>
           <Button variant="primary" onClick={formSubmit}> Search</Button>
