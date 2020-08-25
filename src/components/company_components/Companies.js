@@ -11,15 +11,20 @@ const Companies = () => {
 
   useEffect(() => {
     async function request() {
-      const request = await JoblyApi.getAllCompanies();
-      setCompanies(request);
+      const response = await JoblyApi.getAllCompanies();
+      setCompanies(response);
     }
     request();
   }, []);
 
+  async function handleSubmit(term) {
+    const response = await JoblyApi.getCompanySearch(term);
+    setCompanies(response);
+  };
+
   return (
     <>
-      <Search />
+      <Search handleSubmit={handleSubmit} />
       <CardColumns className="m-5">
         {companies.map(company =>
           <CompanyCard
@@ -28,7 +33,7 @@ const Companies = () => {
             name={company.name}
             description={company.description} />
         )}
-      </CardColumns  >
+      </CardColumns  >  
     </>
   );
 };

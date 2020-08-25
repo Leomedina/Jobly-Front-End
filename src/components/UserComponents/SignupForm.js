@@ -32,7 +32,7 @@ const SignupForm = () => {
               isValid,
               errors,
             }) => (
-                <Form className="m-2" sm noValidate onSubmit={handleSubmit} >
+                <Form className="m-2" sm noValidate onSubmit={handleSubmit}  >
                   <Form.Row className="justify-content-md-center" >
                     <Form.Group as={Col} md="5" controlId="validationFormikUsername">
                       <Form.Label>Username</Form.Label>
