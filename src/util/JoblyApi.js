@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 class JoblyApi {
 
   static async request(endpoint, paramsOrData = {}, verb = "get") {
@@ -29,5 +31,16 @@ class JoblyApi {
     return res.company;
   }
 
-  static 
+  static async getAllCompanies() {
+    let res = await this.request('companies');
+    return res.companies;
+  }
+
+  static async getAllJobs() {
+    let res = await this.request('jobs');
+    return res.jobs;
+  }
+
 }
+
+export default JoblyApi;
