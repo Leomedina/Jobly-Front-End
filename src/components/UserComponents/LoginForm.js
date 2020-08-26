@@ -8,16 +8,18 @@ import {
   Container
 } from 'react-bootstrap';
 
-const LoginForm = () => {
+const LoginForm = ({ handleLogin }) => {
   return (
     <Container>
       <Row className="justify-content-md-center" align="left" >
         <Col sm>
           <Formik
-            onSubmit={console.log}
             initialValues={{
               username: "",
               password: ""
+            }}
+            onSubmit={(values, { resetForm }) => {
+              handleLogin(values.username, values.password);
             }}
           >
             {({

@@ -3,10 +3,7 @@ import axios from 'axios';
 class JoblyApi {
 
   static async request(endpoint, paramsOrData = {}, verb = "get") {
-    paramsOrData._token = ( // for now, hardcode token for "testing"
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc" +
-      "3RpbmciLCJpc19hZG1pbiI6ZmFsc2UsImlhdCI6MTU1MzcwMzE1M30." +
-      "COmFETEsTxN_VfIlgIKw0bYJLkvbRQNgO1XCSE8NZ0U");
+    paramsOrData._token = localStorage.getItem("token") || null;
 
     console.debug("API Call:", endpoint, paramsOrData, verb);
 
@@ -26,32 +23,52 @@ class JoblyApi {
     };
   };
 
+  static async authRequest(username, password) {
+    try {
+      return (await axios({
+        method: "post",
+        url: "http://localhost:3001/login",
+        data: {
+          "username": username,
+          "password": password,
+        }
+      })).data;
+    } catch (err) {
+      console.error("API Error:", err.response);
+      let message = err.response.data.message;
+      throw Array.isArray(message) ? message : [message];
+    };
+  };
+
   static async getCompany(handle) {
-    let res = await this.request(`companies/${handle}`);
+    const res = await this.request(`companies/${handle}`);
     return res.company;
   };
 
   static async getAllCompanies() {
-    let res = await this.request('companies');
+    const res = await this.request('companies');
     return res.companies;
   };
 
   static async getAllJobs() {
-    let res = await this.request('jobs');
+    const res = await this.request('jobs');
     return res.jobs;
   };
 
   static async getCompanySearch(search) {
-    let res = await this.request('companies', search);
+    const res = await this.request('companies', search);
     return res.companies
   };
 
   static async getJobSearch(search) {
-    let res = await this.request('jobs', search);
-    console.log(res)
+    const res = await this.request('jobs', search);
     return res.jobs
   };
 
+  static async login(username, password) {
+    const res = await this.authRequest(username, password);
+    return res.token
+  };
 }
 
 export default JoblyApi;
