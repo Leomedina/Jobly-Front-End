@@ -8,9 +8,7 @@ import {
   Container
 } from 'react-bootstrap';
 
-const LoginForm = ({ handleLogin, setRedirect }) => {
- 
-
+const LoginForm = ({ handleLogin }) => {
   return (
     <Container>
       <Row className="justify-content-md-center" align="left" >

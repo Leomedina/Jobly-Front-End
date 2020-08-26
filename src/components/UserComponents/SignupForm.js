@@ -9,18 +9,20 @@ import {
   Container
 } from 'react-bootstrap';
 
-const SignupForm = () => {
+const SignupForm = ({ handleRegister }) => {
   return (
     <Container>
       <Row className="justify-content-md-center" >
         <Col sm>
           <Formik
-            onSubmit={console.log}
             initialValues={{
               firstName: '',
               lastName: '',
               username: '',
               email: ''
+            }}
+            onSubmit={(values, { resetForm }) => {
+              handleRegister(values.username, values.password, values.first_name, values.last_name, values.email);
             }}
           >
             {({
@@ -32,26 +34,18 @@ const SignupForm = () => {
               isValid,
               errors,
             }) => (
-                <Form className="m-2" sm noValidate onSubmit={handleSubmit}  >
+                <Form className="m-2" noValidate onSubmit={handleSubmit}  >
                   <Form.Row className="justify-content-md-center" >
                     <Form.Group as={Col} md="5" controlId="validationFormikUsername">
                       <Form.Label>Username</Form.Label>
                       <InputGroup>
-                        <InputGroup.Prepend>
-                          <InputGroup.Text id="inputGroupPrepend">@</InputGroup.Text>
-                        </InputGroup.Prepend>
                         <Form.Control
                           type="text"
-                          placeholder="Username"
                           aria-describedby="inputGroupPrepend"
                           name="username"
                           value={values.username}
                           onChange={handleChange}
-                          isInvalid={!!errors.username}
                         />
-                        <Form.Control.Feedback type="invalid">
-                          {errors.username}
-                        </Form.Control.Feedback>
                       </InputGroup>
                     </Form.Group>
                   </Form.Row>
@@ -63,9 +57,7 @@ const SignupForm = () => {
                         name="firstName"
                         value={values.firstName}
                         onChange={handleChange}
-                        isValid={touched.firstName && !errors.firstName}
                       />
-                      <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                     </Form.Group>
                   </Form.Row>
                   <Form.Row className="justify-content-md-center">
@@ -76,9 +68,7 @@ const SignupForm = () => {
                         name="lastName"
                         value={values.lastName}
                         onChange={handleChange}
-                        isValid={touched.lastName && !errors.lastName}
                       />
-                      <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                     </Form.Group>
                   </Form.Row>
                   <Form.Row className="justify-content-md-center">
@@ -89,21 +79,17 @@ const SignupForm = () => {
                         name="email"
                         value={values.email}
                         onChange={handleChange}
-                        isValid={touched.lastName && !errors.lastName}
                       />
-                      <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                     </Form.Group>
                   </Form.Row>
                   <Form.Row className="justify-content-md-center">
                     <Form.Group as={Col} md="5" controlId="validationFormik02">
-                      <Form.Label>Photo URL</Form.Label>
+                      <Form.Label>Password</Form.Label>
                       <Form.Control
-                        type="text"
-                        name="email"
+                        type="password"
+                        name="password"
                         onChange={handleChange}
-                        isValid={touched.lastName && !errors.lastName}
                       />
-                      <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                     </Form.Group>
                   </Form.Row>
                   <Form.Row className="justify-content-md-center">

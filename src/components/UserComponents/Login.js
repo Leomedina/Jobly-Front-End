@@ -10,7 +10,7 @@ import {
   Row
 } from 'react-bootstrap';
 
-const Login = ({ setToken }) => {
+const Login = ({ setToken, setUser }) => {
   const [currentForm, setCurrentForm] = useState("Login");
   const history = useHistory();
 
@@ -18,6 +18,15 @@ const Login = ({ setToken }) => {
     const token = await JoblyApi.login(username, password);
     setToken(token);
     localStorage.setItem("token", token);
+    localStorage.setItem("username", username);
+    history.push('/companies');
+  };
+
+  const handleRegister = async (username, password, first_name, last_name, email) => {
+    const token = await JoblyApi.register(username, password, first_name, last_name, email);
+    setToken(token);
+    localStorage.setItem("token", token);
+    localStorage.setItem("username", username);
     history.push('/companies');
   };
 
@@ -37,7 +46,7 @@ const Login = ({ setToken }) => {
           </ButtonGroup>
           {currentForm === "Login" ?
             <LoginForm handleLogin={handleLogin} />
-            : <SignupForm />}
+            : <SignupForm handleRegister={handleRegister} />}
         </Container>
       </Row>
     </Container >

@@ -1,4 +1,6 @@
 import React from 'react';
+import JoblyApi from '../../util/JoblyApi';
+import { useHistory } from 'react-router-dom';
 import { Formik } from 'formik';
 import {
   Form,
@@ -10,21 +12,27 @@ import {
 } from 'react-bootstrap';
 
 const ProfileForm = () => {
+  const history = useHistory();
   return (
     <Container>
       <Row className="justify-content-md-center">
-
         <h1>Profile</h1>
       </Row>
       <Row className="justify-content-md-center" >
         <Col sm>
           <Formik
-            onSubmit={console.log}
             initialValues={{
-              firstName: 'Leo',
-              lastName: 'Medina',
-              username: 'leomedina',
-              email: 'leo@gmail.com'
+              first_name: '',
+              last_name: '',
+              username: `${localStorage.getItem('username')}`,
+              email: '',
+              password: ''
+
+            }}
+            onSubmit={(values, { resetForm }) => {
+              const res = JoblyApi.update(values.username, values.first_name, values.last_name, values.email, values.password);
+              console.log(res);
+              history.push('/companies');
             }}
           >
             {({
@@ -36,7 +44,7 @@ const ProfileForm = () => {
               isValid,
               errors,
             }) => (
-                <Form className="m-2" sm noValidate onSubmit={handleSubmit}>
+                <Form className="m-2" noValidate onSubmit={handleSubmit}>
                   <Form.Row className="justify-content-md-center">
                     <Form.Group as={Col} md="5" controlId="validationFormikUsername">
                       <fieldset disabled>
@@ -52,11 +60,7 @@ const ProfileForm = () => {
                             name="username"
                             value={values.username}
                             onChange={handleChange}
-                            isInvalid={!!errors.username}
                           />
-                          <Form.Control.Feedback type="invalid">
-                            {errors.username}
-                          </Form.Control.Feedback>
                         </InputGroup>
                       </fieldset>
                     </Form.Group>
@@ -66,12 +70,10 @@ const ProfileForm = () => {
                       <Form.Label>First name</Form.Label>
                       <Form.Control
                         type="text"
-                        name="firstName"
+                        name="first_name"
                         value={values.firstName}
                         onChange={handleChange}
-                        isValid={touched.firstName && !errors.firstName}
                       />
-                      <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                     </Form.Group>
                   </Form.Row>
                   <Form.Row className="justify-content-md-center">
@@ -79,12 +81,10 @@ const ProfileForm = () => {
                       <Form.Label>Last name</Form.Label>
                       <Form.Control
                         type="text"
-                        name="lastName"
+                        name="last_name"
                         value={values.lastName}
                         onChange={handleChange}
-                        isValid={touched.lastName && !errors.lastName}
                       />
-                      <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                     </Form.Group>
                   </Form.Row>
                   <Form.Row className="justify-content-md-center">
@@ -95,21 +95,18 @@ const ProfileForm = () => {
                         name="email"
                         value={values.email}
                         onChange={handleChange}
-                        isValid={touched.lastName && !errors.lastName}
                       />
-                      <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                     </Form.Group>
                   </Form.Row>
                   <Form.Row className="justify-content-md-center">
                     <Form.Group as={Col} md="5" controlId="validationFormik02">
-                      <Form.Label>Photo URL</Form.Label>
+                      <Form.Label>Re-Type Password</Form.Label>
                       <Form.Control
-                        type="text"
-                        name="email"
+                        type="password"
+                        name="password"
+                        value={values.password}
                         onChange={handleChange}
-                        isValid={touched.lastName && !errors.lastName}
                       />
-                      <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                     </Form.Group>
                   </Form.Row>
                   <Form.Row className="justify-content-md-center">
