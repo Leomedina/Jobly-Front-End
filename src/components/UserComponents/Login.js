@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import LoginForm from './LoginForm';
 import JoblyApi from '../../util/JoblyApi';
 import SignupForm from './SignupForm';
@@ -9,18 +10,20 @@ import {
   Row
 } from 'react-bootstrap';
 
-const Login = () => {
+const Login = ({ setToken }) => {
   const [currentForm, setCurrentForm] = useState("Login");
+  const history = useHistory();
 
   const handleLogin = async (username, password) => {
     const token = await JoblyApi.login(username, password);
+    setToken(token);
     localStorage.setItem("token", token);
-    console.log(localStorage.getItem("token"));
+    history.push('/companies');
   };
 
   return (
     <Container align="center">
-      <Row ClassName="justify-content-md-center">
+      <Row className="justify-content-md-center">
         <Container >
           <ButtonGroup>
             <Button

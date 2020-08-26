@@ -8,7 +8,9 @@ import {
   Container
 } from 'react-bootstrap';
 
-const LoginForm = ({ handleLogin }) => {
+const LoginForm = ({ handleLogin, setRedirect }) => {
+ 
+
   return (
     <Container>
       <Row className="justify-content-md-center" align="left" >
@@ -31,7 +33,7 @@ const LoginForm = ({ handleLogin }) => {
               isValid,
               errors,
             }) => (
-                <Form className="m-2" sm noValidate onSubmit={handleSubmit}>
+                <Form className="m-2" noValidate onSubmit={handleSubmit}>
                   <Form.Row className="justify-content-md-center">
                     <Form.Group as={Col} md="5" controlId="validationFormik01">
                       <Form.Label>Username</Form.Label>
