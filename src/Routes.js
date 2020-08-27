@@ -8,14 +8,14 @@ import ProfileForm from './components/UserComponents/ProfileForm';
 import Login from './components/UserComponents/Login';
 import Logout from './components/UserComponents/Logout';
 
-const Routes = () => {
+const Routes = ({ setToken }) => {
   return (
     <Switch>
       <Route exact path="/companies/:handle"><Company /></Route>
       <Route exact path="/companies"><Companies /></Route>
       <Route exact path="/jobs"><Jobs /></Route>
-      <Route exact path="/login"><Login /></Route>
-      <Route exact path="/logout"><Logout /></Route>
+      <Route exact path="/login"><Login setToken={setToken} /></Route>
+      <Route exact path="/logout"><Logout setToken={setToken} /></Route>
       <Route exact path="/profile"><ProfileForm /></Route>
       <Route exact path="/"><Home /></Route>
     </Switch>

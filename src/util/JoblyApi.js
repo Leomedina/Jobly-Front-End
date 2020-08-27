@@ -40,6 +40,46 @@ class JoblyApi {
     };
   };
 
+  static async regRequest(username, password, first_name, last_name, email) {
+    try {
+      return (await axios({
+        method: "post",
+        url: "http://localhost:3001/users",
+        data: {
+          "username": username,
+          "password": password,
+          "first_name": first_name,
+          "last_name": last_name,
+          "email": email
+        }
+      })).data;
+    } catch (err) {
+      console.error("API Error:", err.response);
+      let message = err.response.data.message;
+      throw Array.isArray(message) ? message : [message];
+    };
+  };
+
+  static async updateRequest(username, first_name, last_name, email, password) {
+    try {
+      return (await axios({
+        method: "patch",
+        url: `http://localhost:3001/users/${username}`,
+        data: {
+          "_token": `${localStorage.getItem("token")}`,
+          "first_name": first_name,
+          "last_name": last_name,
+          "password": password,
+          "email": email
+        }
+      })).data;
+    } catch (err) {
+      console.error("API Error:", err.response);
+      let message = err.response.data.message;
+      throw Array.isArray(message) ? message : [message];
+    };
+  };
+
   static async getCompany(handle) {
     const res = await this.request(`companies/${handle}`);
     return res.company;
@@ -57,18 +97,46 @@ class JoblyApi {
 
   static async getCompanySearch(search) {
     const res = await this.request('companies', search);
-    return res.companies
+    return res.companies;
   };
 
   static async getJobSearch(search) {
     const res = await this.request('jobs', search);
-    return res.jobs
+    return res.jobs;
   };
 
   static async login(username, password) {
     const res = await this.authRequest(username, password);
-    return res.token
+    return res.token;
   };
-}
+
+  static async register(username, password, first_name, last_name, email) {
+    const res = await this.regRequest(username, password, first_name, last_name, email);
+    return res.token;
+  };
+
+  static async update(username, first_name, last_name, email, password) {
+    const res = await this.updateRequest(username, first_name, last_name, email, password);
+    console.log(res, "api");
+    return res;
+  };
+
+  static async apply(jobId) {
+    try {
+      return (await axios({
+        method: "post",
+        url: `http://localhost:3001/jobs/${jobId}/apply`,
+        data: {
+          "_token": `${localStorage.getItem("token")}`,
+          "status": "applied"
+        }
+      })).data;
+    } catch (err) {
+      console.error("API Error:", err.response);
+      let message = err.response.data.message;
+      throw Array.isArray(message) ? message : [message];
+    };
+  };
+};
 
 export default JoblyApi;

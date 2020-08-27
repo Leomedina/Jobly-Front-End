@@ -1,11 +1,18 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
+import JoblyApi from '../../util/JoblyApi';
 import {
   Card,
   Button
 } from 'react-bootstrap';
 
 const JobCard = ({ id, title, salary, equity, state }) => {
+  const history = useHistory();
+
+  const handleRequest = () => {
+    const res = JoblyApi.apply(id);
+    history.push('/companies');
+  };
 
   return (
     <Card>
@@ -16,9 +23,14 @@ const JobCard = ({ id, title, salary, equity, state }) => {
           <br />
           Equity: {equity}
         </Card.Text>
-        <Link to={'/'}>
-          < Button variant="primary" disabled={state ? true : false}>Apply</Button>
-        </Link>
+        {state === "applied" ?
+          <button variant="primary" disabled>Thanks for Applying</button> :
+          <Button
+            onClick={handleRequest}
+            variant="primary">
+            Apply
+          </Button>
+        }
       </Card.Body >
     </Card >
   );
